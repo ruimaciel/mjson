@@ -1,9 +1,7 @@
-check_PROGRAMS=
-TESTS=
+TESTS = check_mjson
+check_PROGRAMS = check_mjson
 
-check_PROGRAMS+=test-json
-TESTS+=test-json
-test_json_CPPFLAGS=-I$(top_srcdir)/src
-test_json_LDADD=$(top_builddir)/src/libmjson.la
-test_json_SOURCES=test-json.c
+check_mjson_SOURCES = check_mjson.c
+check_mjson_CFLAGS = -I$(top_srcdir)/src @CHECK_CFLAGS@
+check_mjson_LDADD = $(top_builddir)/src/libmjson.la  @CHECK_LIBS@
 

@@ -16,7 +16,6 @@
 @SET_MAKE@
 
 
-
 VPATH = @srcdir@
 am__make_dryrun = \
   { \
@@ -53,7 +52,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-noinst_PROGRAMS = test$(EXEEXT)
 subdir = src
 DIST_COMMON = $(mjson_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
@@ -101,13 +99,6 @@ libmjson_la_OBJECTS = $(am_libmjson_la_OBJECTS)
 libmjson_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(libmjson_la_LDFLAGS) $(LDFLAGS) -o $@
-PROGRAMS = $(noinst_PROGRAMS)
-am_test_OBJECTS = test.$(OBJEXT)
-test_OBJECTS = $(am_test_OBJECTS)
-test_DEPENDENCIES = libmjson.la
-test_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(test_LDFLAGS) \
-	$(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -121,8 +112,8 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(libmjson_la_SOURCES) $(test_SOURCES)
-DIST_SOURCES = $(libmjson_la_SOURCES) $(test_SOURCES)
+SOURCES = $(libmjson_la_SOURCES)
+DIST_SOURCES = $(libmjson_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -142,6 +133,8 @@ AWK = @AWK@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
+CHECK_CFLAGS = @CHECK_CFLAGS@
+CHECK_LIBS = @CHECK_LIBS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CYGPATH_W = @CYGPATH_W@
@@ -259,12 +252,6 @@ libmjson_la_SOURCES = \
 	json_helper.c \
 	$(NULL)
 
-
-# the library search path.
-test_LDFLAGS = $(all_libraries)
-test_LDADD = libmjson.la
-test_SOURCES = test.c
-EXTRA_DIST = .indent.pro
 all: all-am
 
 .SUFFIXES:
@@ -334,18 +321,6 @@ clean-libLTLIBRARIES:
 libmjson.la: $(libmjson_la_OBJECTS) $(libmjson_la_DEPENDENCIES) $(EXTRA_libmjson_la_DEPENDENCIES) 
 	$(libmjson_la_LINK) -rpath $(libdir) $(libmjson_la_OBJECTS) $(libmjson_la_LIBADD) $(LIBS)
 
-clean-noinstPROGRAMS:
-	@list='$(noinst_PROGRAMS)'; test -n "$$list" || exit 0; \
-	echo " rm -f" $$list; \
-	rm -f $$list || exit $$?; \
-	test -n "$(EXEEXT)" || exit 0; \
-	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
-	echo " rm -f" $$list; \
-	rm -f $$list
-test$(EXEEXT): $(test_OBJECTS) $(test_DEPENDENCIES) $(EXTRA_test_DEPENDENCIES) 
-	@rm -f test$(EXEEXT)
-	$(test_LINK) $(test_OBJECTS) $(test_LDADD) $(LIBS)
-
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -354,7 +329,6 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/json.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/json_helper.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -487,9 +461,8 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 check-am: all-am
-	$(MAKE) $(AM_MAKEFLAGS) check-local
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(HEADERS)
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 installdirs:
 	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(mjsondir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
@@ -527,7 +500,7 @@ maintainer-clean-generic:
 clean: clean-am
 
 clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
-	clean-noinstPROGRAMS mostlyclean-am
+	mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -573,7 +546,7 @@ install-ps: install-ps-am
 
 install-ps-am:
 
-installcheck-am: installcheck-local
+installcheck-am:
 
 maintainer-clean: maintainer-clean-am
 	-rm -rf ./$(DEPDIR)
@@ -595,35 +568,23 @@ ps-am:
 
 uninstall-am: uninstall-libLTLIBRARIES uninstall-mjsonHEADERS
 
-.MAKE: check-am install-am install-strip
+.MAKE: install-am install-strip
 
-.PHONY: CTAGS GTAGS all all-am check check-am check-local clean \
-	clean-generic clean-libLTLIBRARIES clean-libtool \
-	clean-noinstPROGRAMS ctags distclean distclean-compile \
-	distclean-generic distclean-libtool distclean-tags distdir dvi \
-	dvi-am html html-am info info-am install install-am \
-	install-data install-data-am install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-libLTLIBRARIES \
-	install-man install-mjsonHEADERS install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installcheck-local installdirs \
+.PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
+	clean-libLTLIBRARIES clean-libtool ctags distclean \
+	distclean-compile distclean-generic distclean-libtool \
+	distclean-tags distdir dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am \
+	install-libLTLIBRARIES install-man install-mjsonHEADERS \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
 	maintainer-clean maintainer-clean-generic mostlyclean \
 	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
 	pdf pdf-am ps ps-am tags uninstall uninstall-am \
 	uninstall-libLTLIBRARIES uninstall-mjsonHEADERS
 
-
-check-local:
-	@for src in $(test_SOURCES) $(libmjson_la_SOURCES); do \
-		echo "[TEST] $$src"; \
-		INDENT_PROFILE="$(srcdir)/.indent.pro" indent -st $$src | diff -u $$src - || exit $?; \
-	done
-
-installcheck-local:
-	cat $(srcdir)/test.c | \
-		$(CC) -x c - -o /dev/null \
-		$(shell PKG_CONFIG_PATH=$(pkgconfigdir):$$PKG_CONFIG_PATH pkg-config --cflags --libs mjson-@MILESTONE@)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

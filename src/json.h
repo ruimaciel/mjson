@@ -24,7 +24,7 @@
 \note error handling is only in a very rudimentary form.
 \author Rui Maciel	rui_maciel@users.sourceforge.net
 \author Sven Herzberg
-\version v1.6
+\version v1.7
 */
 
 #include <stdint.h>
