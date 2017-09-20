@@ -17,46 +17,42 @@
 
 
 void
-json_render_tree_indented (json_t * root, int level)
+json_render_tree_indented(json_t * root, int level)
 {
 	int tab;
-	assert (root != NULL);
-	for (tab = 0; tab < level; tab++)
-	{
-		printf ("> ");
+	assert(root != NULL);
+	for (tab = 0; tab < level; tab++) {
+		printf("> ");
 	}
-	switch (root->type)
-	{
+	switch (root->type) {
 	case JSON_STRING:
-		printf ("STRING: %s\n", root->text);
+		printf("STRING: %s\n", root->text);
 		break;
 	case JSON_NUMBER:
-		printf ("NUMBER: %s\n", root->text);
+		printf("NUMBER: %s\n", root->text);
 		break;
 	case JSON_OBJECT:
-		printf ("OBJECT: \n");
+		printf("OBJECT: \n");
 		break;
 	case JSON_ARRAY:
-		printf ("ARRAY: \n");
+		printf("ARRAY: \n");
 		break;
 	case JSON_TRUE:
-		printf ("TRUE:\n");
+		printf("TRUE:\n");
 		break;
 	case JSON_FALSE:
-		printf ("FALSE:\n");
+		printf("FALSE:\n");
 		break;
 	case JSON_NULL:
-		printf ("NULL:\n");
+		printf("NULL:\n");
 		break;
 	}
 	/* iterate through children */
-	if (root->child != NULL)
-	{
+	if (root->child != NULL) {
 		json_t *ita, *itb;
 		ita = root->child;
-		while (ita != NULL)
-		{
-			json_render_tree_indented (ita, level + 1);
+		while (ita != NULL) {
+			json_render_tree_indented(ita, level + 1);
 			itb = ita->next;
 			ita = itb;
 		}
@@ -65,8 +61,8 @@ json_render_tree_indented (json_t * root, int level)
 
 
 void
-json_render_tree (json_t * root)
+json_render_tree(json_t * root)
 {
-	assert (root != NULL);
-	json_render_tree_indented (root, 0);
+	assert(root != NULL);
+	json_render_tree_indented(root, 0);
 }
