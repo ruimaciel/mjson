@@ -27,11 +27,11 @@
 \version v1.7
 */
 
-#include <stdint.h>
-#include <stdio.h>
-
 #ifndef JSON_H
 #define JSON_H
+
+#include <stdint.h>
+#include <stdio.h>
 
 #ifdef __cplusplus
 extern "C" {
