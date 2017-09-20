@@ -72,7 +72,7 @@ enum json_error {
 	JSON_WAITING_FOR_EOF,		/*!< A complete JSON document tree was already finished but needs to get to EOF. Other characters beyond whitespaces produce errors */
 	JSON_MALFORMED_DOCUMENT,	/* the JSON document which was fed to this parser is malformed */
 	JSON_INCOMPATIBLE_TYPE,		/*!< the currently parsed type does not belong here */
-	SON_MEMORY,				/*!< an error occurred when allocating memory */
+	JSON_MEMORY,				/*!< an error occurred when allocating memory */
 	JSON_ILLEGAL_CHARACTER,		/*!< the currently parsed character does not belong here */
 	JSON_BAD_TREE_STRUCTURE,	/*!< the document tree structure is malformed */
 	JSON_MAXIMUM_LENGTH,		/*!< the parsed string reached the maximum allowed size */
