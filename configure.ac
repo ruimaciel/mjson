@@ -22,7 +22,7 @@ AC_PROG_CC
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
-PKG_CHECK_MODULES([CHECK], [check >= 0.10.0])
+PKG_CHECK_MODULES([CHECK], [check >= 0.9.10])
 
 # Checks for header files.
 AC_HEADER_STDC
