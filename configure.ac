@@ -22,10 +22,7 @@ AC_PROG_CC
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
-AM_PATH_CHECK(,[have_check="yes"],
-  AC_MSG_WARN([Check not found; cannot run unit tests!])
-  [have_check="no"])
-AM_CONDITIONAL(HAVE_CHECK, test x"$have_check" = "xyes")
+PKG_CHECK_MODULES([CHECK], [check >= 0.10.0])
 
 # Checks for header files.
 AC_HEADER_STDC
