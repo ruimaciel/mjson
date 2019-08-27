@@ -1,0 +1,18 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  build:
+    name: build job
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@master
+    - name: install dependencies
+      run: sudo apt-get install build-essential check
+    - name: rebuild autotools project
+      run: libtoolize && autoheader && aclocal && automake --add-missing && autoconf
+    - name: configure
+      run: ./configure
+    - name: make
+      run: make
