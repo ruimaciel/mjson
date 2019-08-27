@@ -24,7 +24,7 @@
 \note error handling is only in a very rudimentary form.
 \author Rui Maciel	rui_maciel@users.sourceforge.net
 \author Sven Herzberg
-\version v1.7
+\version v1.8
 */
 
 #ifndef JSON_H
@@ -43,22 +43,22 @@ extern "C" {
 /**
 The descriptions of the json_value node type
 **/ enum json_value_type {
-	JSON_STRING = 0,
-	JSON_NUMBER,
-	JSON_OBJECT,
-	JSON_ARRAY,
-	JSON_TRUE,
-	JSON_FALSE,
-	JSON_NULL
+    JSON_STRING = 0,
+    JSON_NUMBER,
+    JSON_OBJECT,
+    JSON_ARRAY,
+    JSON_TRUE,
+    JSON_FALSE,
+    JSON_NULL
 };
 
 /**
 String implementation
 **/
 struct rui_cstring {
-	char *text;					/*<! char c-string */
-	size_t length;				/*<! put in place to avoid strlen() calls */
-	size_t max;					/*<! usable memory allocated to text minus the space for the nul character */
+    char *text;					/*<! char c-string */
+    size_t length;				/*<! put in place to avoid strlen() calls */
+    size_t max;					/*<! usable memory allocated to text minus the space for the nul character */
 };
 
 typedef struct rui_cstring rcstring;
@@ -67,16 +67,16 @@ typedef struct rui_cstring rcstring;
 The error messages produced by the JSON parsers
 **/
 enum json_error {
-	JSON_OK = 1,				/*!< everything went smoothly */
-	JSON_INCOMPLETE_DOCUMENT,	/*!< the parsed document didn't ended */
-	JSON_WAITING_FOR_EOF,		/*!< A complete JSON document tree was already finished but needs to get to EOF. Other characters beyond whitespaces produce errors */
-	JSON_MALFORMED_DOCUMENT,	/* the JSON document which was fed to this parser is malformed */
-	JSON_INCOMPATIBLE_TYPE,		/*!< the currently parsed type does not belong here */
-	JSON_MEMORY,				/*!< an error occurred when allocating memory */
-	JSON_ILLEGAL_CHARACTER,		/*!< the currently parsed character does not belong here */
-	JSON_BAD_TREE_STRUCTURE,	/*!< the document tree structure is malformed */
-	JSON_MAXIMUM_LENGTH,		/*!< the parsed string reached the maximum allowed size */
-	JSON_UNKNOWN_PROBLEM		/*!< some random, unaccounted problem occurred */
+    JSON_OK = 1,				/*!< everything went smoothly */
+    JSON_INCOMPLETE_DOCUMENT,	/*!< the parsed document didn't ended */
+    JSON_WAITING_FOR_EOF,		/*!< A complete JSON document tree was already finished but needs to get to EOF. Other characters beyond whitespaces produce errors */
+    JSON_MALFORMED_DOCUMENT,	/* the JSON document which was fed to this parser is malformed */
+    JSON_INCOMPATIBLE_TYPE,		/*!< the currently parsed type does not belong here */
+    JSON_MEMORY,				/*!< an error occurred when allocating memory */
+    JSON_ILLEGAL_CHARACTER,		/*!< the currently parsed character does not belong here */
+    JSON_BAD_TREE_STRUCTURE,	/*!< the document tree structure is malformed */
+    JSON_MAXIMUM_LENGTH,		/*!< the parsed string reached the maximum allowed size */
+    JSON_UNKNOWN_PROBLEM		/*!< some random, unaccounted problem occurred */
 };
 
 
@@ -84,15 +84,15 @@ enum json_error {
 The JSON document tree node, which is a basic JSON type
 **/
 typedef struct json_value {
-	enum json_value_type type;	/*!< the type of node */
-	char *text;					/*!< The text stored by the node. It stores UTF-8 strings and is used exclusively by the JSON_STRING and JSON_NUMBER node types */
+    enum json_value_type type;	/*!< the type of node */
+    char *text;					/*!< The text stored by the node. It stores UTF-8 strings and is used exclusively by the JSON_STRING and JSON_NUMBER node types */
 
-	/* FIFO queue data */
-	struct json_value *next;	/*!< The pointer pointing to the next element in the FIFO sibling list */
-	struct json_value *previous;	/*!< The pointer pointing to the previous element in the FIFO sibling list */
-	struct json_value *parent;	/*!< The pointer pointing to the parent node in the document tree */
-	struct json_value *child;	/*!< The pointer pointing to the first child node in the document tree */
-	struct json_value *child_end;	/*!< The pointer pointing to the last child node in the document tree */
+    /* FIFO queue data */
+    struct json_value *next;	/*!< The pointer pointing to the next element in the FIFO sibling list */
+    struct json_value *previous;	/*!< The pointer pointing to the previous element in the FIFO sibling list */
+    struct json_value *parent;	/*!< The pointer pointing to the parent node in the document tree */
+    struct json_value *child;	/*!< The pointer pointing to the first child node in the document tree */
+    struct json_value *child_end;	/*!< The pointer pointing to the last child node in the document tree */
 } json_t;
 
 
@@ -100,13 +100,13 @@ typedef struct json_value {
 The structure holding all information needed to resume parsing
 **/
 struct json_parsing_info {
-	unsigned int state;			/*!< the state where the parsing was left on the last parser run */
-	unsigned int lex_state;
-	rcstring *lex_text;
-	const char *p;
-	int string_length_limit_reached;	/*!< flag informing if the string limit length defined by JSON_MAX_STRING_LENGTH was reached */
-	size_t line;				/* current document line */
-	json_t *cursor;				/*!< pointers to nodes belonging to the document tree which aid the document parsing */
+    unsigned int state;			/*!< the state where the parsing was left on the last parser run */
+    unsigned int lex_state;
+    rcstring *lex_text;
+    const char *p;
+    int string_length_limit_reached;	/*!< flag informing if the string limit length defined by JSON_MAX_STRING_LENGTH was reached */
+    size_t line;				/* current document line */
+    json_t *cursor;				/*!< pointers to nodes belonging to the document tree which aid the document parsing */
 };
 
 
@@ -114,17 +114,17 @@ struct json_parsing_info {
 The structure which holds the pointers to the functions that will be called by the saxy parser whenever their evens are triggered
 **/
 struct json_saxy_functions {
-	int (*open_object) (void);
-	int (*close_object) (void);
-	int (*open_array) (void);
-	int (*close_array) (void);
-	int (*new_string) (char *text);
-	int (*new_number) (char *text);
-	int (*new_true) (void);
-	int (*new_false) (void);
-	int (*new_null) (void);
-	int (*label_value_separator) (void);
-	int (*sibling_separator) (void);
+    int (*open_object) (void);
+    int (*close_object) (void);
+    int (*open_array) (void);
+    int (*close_array) (void);
+    int (*new_string) (char *text);
+    int (*new_number) (char *text);
+    int (*new_true) (void);
+    int (*new_false) (void);
+    int (*new_null) (void);
+    int (*label_value_separator) (void);
+    int (*sibling_separator) (void);
 };
 
 
@@ -132,13 +132,13 @@ struct json_saxy_functions {
 The structure holding the information needed for json_saxy_parse to resume parsing
 **/
 struct json_saxy_parser_status {
-	unsigned int state;			/*!< current parser state */
-	int string_length_limit_reached;	/*!< flag informing if the string limit length defined by JSON_MAX_STRING_LENGTH was reached */
-	rcstring *temp;				/*!< temporary string which will be used to build up parsed strings between parser runs. */
+    unsigned int state;			/*!< current parser state */
+    int string_length_limit_reached;	/*!< flag informing if the string limit length defined by JSON_MAX_STRING_LENGTH was reached */
+    rcstring *temp;				/*!< temporary string which will be used to build up parsed strings between parser runs. */
 };
 
 
-/** 
+/**
 Buils a json_t document by parsing an open file stream
 @param file a pointer to an object controlling a stream, returned by fopen()
 @param document a reference to a json_t pointer, set to NULL, which will store the parsed document
@@ -242,7 +242,7 @@ enum json_error json_tree_to_string(json_t * root, char **text);
 
 
 /**
-Produces a JSON markup text document from a json_t document tree to a text stream 
+Produces a JSON markup text document from a json_t document tree to a text stream
 @param file a opened file stream
 @param root The document's root node
 @return  a json_error code describing how the operation went
@@ -252,7 +252,7 @@ enum json_error json_stream_output(FILE * file, json_t * root);
 
 /**
 Strips all JSON white spaces from the text string
-@param text a char string holding a JSON document or document snippet 
+@param text a char string holding a JSON document or document snippet
 **/
 void json_strip_white_spaces(char *text);
 
@@ -284,7 +284,7 @@ char *json_unescape(const char *text);
 
 
 /**
-This function takes care of the tedious task of initializing any instance of 
+This function takes care of the tedious task of initializing any instance of
 struct json_parsing_info
 @param jpi a pointer to a struct json_parsing_info instance
 **/
