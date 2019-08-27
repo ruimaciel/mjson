@@ -15,13 +15,13 @@ Renders the tree structure where root is the tree's root, which can also be a tr
 @param root the tree's root node (may be a child node)
 @param level the indentation level (number of tabs)
  **/
-void json_render_tree_indented (json_t * root, int level);
+void json_render_tree_indented(json_t * root, int level);
 
 /**
 Renders the tree structure where root is the tree's root, which can also be a tree branch.
 @param root the tree's root node (may be a child node)
  **/
-void json_render_tree (json_t * root);
+void json_render_tree(json_t * root);
 
 
 #endif

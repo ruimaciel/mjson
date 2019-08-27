@@ -25,12 +25,12 @@
 
 START_TEST(test_parser_empty_object_document)
 {
-	struct json_parsing_info parsing_info;
+	json_t *json_doc = NULL;
 
-	json_jpi_init(&parsing_info);
 	enum json_error error;
 	const char * json_document = "{}\n";
-	error = json_parse_document (&parsing_info, json_document);
+
+	error = json_parse_document (&json_doc, json_document);
 
 	ck_assert_int_eq(error, JSON_OK);
 }
@@ -39,12 +39,12 @@ END_TEST
 
 START_TEST(test_parser_logical_document)
 {
-	struct json_parsing_info parsing_info;
+	json_t *json_doc = NULL;
 
-	json_jpi_init(&parsing_info);
 	enum json_error error;
 	const char * json_document = "{\"foo\":true, \"bar\":false}\n";
-	error = json_parse_document (&parsing_info, json_document);
+
+	error = json_parse_document (&json_doc, json_document);
 
 	ck_assert_int_eq(error, JSON_OK);
 }
@@ -53,12 +53,12 @@ END_TEST
 
 START_TEST(test_parser_numerical_document)
 {
-	struct json_parsing_info parsing_info;
+	json_t *json_doc = NULL;
 
-	json_jpi_init(&parsing_info);
 	enum json_error error;
 	const char * json_document = "{\"foo\":1, \"bar\":1.0, \"baz\":-1e-10}\n";
-	error = json_parse_document (&parsing_info, json_document);
+
+	error = json_parse_document (&json_doc, json_document);
 
 	ck_assert_int_eq(error, JSON_OK);
 }
@@ -67,12 +67,12 @@ END_TEST
 
 START_TEST(test_parser_string_document)
 {
-	struct json_parsing_info parsing_info;
+	json_t *json_doc = NULL;
 
-	json_jpi_init(&parsing_info);
 	enum json_error error;
 	const char * json_document = "{\"foo\":\"bar\", \"bar\":\"baz\"}\n";
-	error = json_parse_document (&parsing_info, json_document);
+
+	error = json_parse_document (&json_doc, json_document);
 
 	ck_assert_int_eq(error, JSON_OK);
 }
@@ -81,12 +81,12 @@ END_TEST
 
 START_TEST(test_parser_array_document)
 {
-	struct json_parsing_info parsing_info;
+	json_t *json_doc = NULL;
 
-	json_jpi_init(&parsing_info);
 	enum json_error error;
 	const char * json_document = "{\"foo\":[1,2,3,4]\n}\n";
-	error = json_parse_document (&parsing_info, json_document);
+
+	error = json_parse_document (&json_doc, json_document);
 
 	ck_assert_int_eq(error, JSON_OK);
 }
@@ -95,12 +95,12 @@ END_TEST
 
 START_TEST(test_parser_object_document)
 {
-	struct json_parsing_info parsing_info;
+	json_t *json_doc = NULL;
 
-	json_jpi_init(&parsing_info);
 	enum json_error error;
 	const char * json_document = "{\"foo\":{\"bar\":1, \"baz\":2}\n}\n";
-	error = json_parse_document (&parsing_info, json_document);
+
+	error = json_parse_document (&json_doc, json_document);
 
 	ck_assert_int_eq(error, JSON_OK);
 }

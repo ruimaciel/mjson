@@ -1,5 +1,5 @@
 # set the include path found by configure
-INCLUDES = $(all_includes)
+AM_CFLAGS = $(all_includes)
 
 lib_LTLIBRARIES=libmjson.la
 

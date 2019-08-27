@@ -1,0 +1,37 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: ubuntu:bionic
+
+    steps:
+      - run:
+          name: Install base packages
+          command: |
+            apt-get update
+            apt-get install -y build-essential autoconf libtool git gcc-7 check pkg-config
+      - checkout
+      - run:
+          name: Prepare build directory
+          command: |
+            autoreconf --install
+            mkdir build
+            cd build
+            ../configure
+      - run:
+          name: Build
+          command: |
+            cd build
+            make -j2
+      - run:
+          name: test  libfemp
+          command: |
+            cd build
+            make check
+
+workflows:
+  version: 2
+  unscheduled:
+    jobs:
+      - build
