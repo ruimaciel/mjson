@@ -39,7 +39,7 @@ extern "C" {
 #if 0
 }
 #endif
-#define JSON_MAX_STRING_LENGTH SIZE_MAX-1
+#define JSON_MAX_STRING_LENGTH (SIZE_MAX-1)
 /**
 The descriptions of the json_value node type
 **/ enum json_value_type {
