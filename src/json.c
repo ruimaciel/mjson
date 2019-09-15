@@ -877,7 +877,9 @@ json_stream_output(FILE * file, json_t * root)
 void
 json_strip_white_spaces(char *text)
 {
-	size_t in, out, length;
+	size_t in;
+	size_t out;
+	size_t length;
 	int state;
 
 	assert(text != NULL);
@@ -928,7 +930,8 @@ json_strip_white_spaces(char *text)
 char *
 json_format_string(const char *text)
 {
-	size_t pos = 0, text_length;
+	size_t pos = 0;
+	size_t text_length;
 	unsigned int indentation = 0;	/* the current indentation level */
 	unsigned int i;				/* loop iterator variable */
 	char loop;
@@ -1018,8 +1021,10 @@ char *
 json_escape(const char *text)
 {
 	rcstring *output;
-	size_t i, length;
+	size_t i;
+	size_t length;
 	char buffer[7];
+
 	/* check if pre-conditions are met */
 	assert(text != NULL);
 
