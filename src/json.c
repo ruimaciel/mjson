@@ -2020,9 +2020,9 @@ json_parse_fragment(struct json_parsing_info *info, const char *buffer)
 							info->cursor = info->cursor->parent;
 							if (info->cursor->type != JSON_OBJECT) {
 								return JSON_BAD_TREE_STRUCTURE;
-							} else {
-								info->state = 3;	/* finished adding a field to an object */
 							}
+
+							info->state = 3;	/* finished adding a field to an object */
 							break;
 
 						case JSON_ARRAY:
@@ -2072,9 +2072,9 @@ json_parse_fragment(struct json_parsing_info *info, const char *buffer)
 							info->cursor = info->cursor->parent;
 							if (info->cursor->type != JSON_OBJECT) {
 								return JSON_BAD_TREE_STRUCTURE;
-							} else {
-								info->state = 3;	/* finished adding a field to an object */
 							}
+
+							info->state = 3;	/* finished adding a field to an object */
 							break;
 
 						case JSON_ARRAY:
@@ -2428,9 +2428,9 @@ json_parse_fragment(struct json_parsing_info *info, const char *buffer)
 								info->cursor = info->cursor->parent;
 								if (info->cursor->type != JSON_OBJECT) {
 									return JSON_BAD_TREE_STRUCTURE;
-								} else {
-									info->state = 3;	/* followup to adding child to array */
 								}
+
+								info->state = 3;	/* followup to adding child to array */
 							}
 							break;
 
@@ -2482,10 +2482,10 @@ json_parse_fragment(struct json_parsing_info *info, const char *buffer)
 		}
 	}
 	info->p = NULL;
-	if (info->state == 99)
+	if (info->state == 99) {
 		return JSON_WAITING_FOR_EOF;
-	else
-		return JSON_INCOMPLETE_DOCUMENT;
+	}
+	return JSON_INCOMPLETE_DOCUMENT;
 }
 
 
@@ -2512,10 +2512,10 @@ json_parse_document(json_t ** root, const char *text)
 		*root = jpi->cursor;
 		free(jpi);
 		return JSON_OK;
-	} else {
-		free(jpi);
-		return error;
 	}
+
+	free(jpi);
+	return error;
 }
 
 
@@ -3488,9 +3488,9 @@ json_saxy_parse(struct json_saxy_parser_status *jsps, struct json_saxy_functions
 					}
 					if (rcs_catc((jsps->temp), c) != RS_OK) {
 						return JSON_MEMORY;
-					} else {
-						jsps->string_length_limit_reached = 1;
 					}
+
+					jsps->string_length_limit_reached = 1;
 				}
 			}
 			jsps->state = 24;	/* parse number: start decimal part */
