@@ -1,6 +1,32 @@
-Version 1.8
-* bug fixes
+# Changelog
+All notable changes to this project will be documented in this file.
 
-Version 1.7
-* added unit tests based on Check
-* fixed some bugs
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [1.8.1] - 2019-09-15
+### Changed
+- Start using GitHub actions automated build and testing
+
+### Fixed
+- assortment of bugs
+- CircleCI build pipeline runs on CircleCI's Docker images instead of Ubuntu's
+official images
+
+
+## [1.8.0] - 2019-08-27
+### Added
+- unit tests based on Check
+
+### Changed
+- Start using CircleCI automated build and testing
+
+### Fixed
+- assortment of bugs
+
+## [1.7.0] - 2017-09-19
+### Changed
+- project migrated to GitHub 
+
