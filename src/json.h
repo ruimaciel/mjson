@@ -24,7 +24,7 @@
 \note error handling is only in a very rudimentary form.
 \author Rui Maciel	rui_maciel@users.sourceforge.net
 \author Sven Herzberg
-\version v1.8
+\version v1.8.1
 */
 
 #ifndef JSON_H
@@ -39,7 +39,7 @@ extern "C" {
 #if 0
 }
 #endif
-#define JSON_MAX_STRING_LENGTH SIZE_MAX-1
+#define JSON_MAX_STRING_LENGTH (SIZE_MAX-1)
 /**
 The descriptions of the json_value node type
 **/ enum json_value_type {

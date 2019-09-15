@@ -183,7 +183,8 @@ rcs_length(rcstring * rcs)
 enum json_error
 json_stream_parse(FILE * file, json_t ** document)
 {
-	char buffer[1024];			/* hard-coded value */
+	#define JSON_BUFFER_SIZE 1024
+	char buffer[JSON_BUFFER_SIZE];			/* hard-coded value */
 	enum json_error error = JSON_INCOMPLETE_DOCUMENT;
 
 	struct json_parsing_info state;
@@ -195,7 +196,7 @@ json_stream_parse(FILE * file, json_t ** document)
 	json_jpi_init(&state);		/* initializes the json_parsing_info object */
 
 	while ((error == JSON_WAITING_FOR_EOF) || (error == JSON_INCOMPLETE_DOCUMENT)) {
-		if (fgets(buffer, 1024, file) != NULL) {
+		if (fgets(buffer, JSON_BUFFER_SIZE, file) != NULL) {
 			switch (error = json_parse_fragment(&state, buffer)) {
 			case JSON_OK:
 			case JSON_WAITING_FOR_EOF:
@@ -876,7 +877,9 @@ json_stream_output(FILE * file, json_t * root)
 void
 json_strip_white_spaces(char *text)
 {
-	size_t in, out, length;
+	size_t in;
+	size_t out;
+	size_t length;
 	int state;
 
 	assert(text != NULL);
@@ -927,7 +930,8 @@ json_strip_white_spaces(char *text)
 char *
 json_format_string(const char *text)
 {
-	size_t pos = 0, text_length;
+	size_t pos = 0;
+	size_t text_length;
 	unsigned int indentation = 0;	/* the current indentation level */
 	unsigned int i;				/* loop iterator variable */
 	char loop;
@@ -1017,8 +1021,10 @@ char *
 json_escape(const char *text)
 {
 	rcstring *output;
-	size_t i, length;
+	size_t i;
+	size_t length;
 	char buffer[7];
+
 	/* check if pre-conditions are met */
 	assert(text != NULL);
 
@@ -2014,9 +2020,9 @@ json_parse_fragment(struct json_parsing_info *info, const char *buffer)
 							info->cursor = info->cursor->parent;
 							if (info->cursor->type != JSON_OBJECT) {
 								return JSON_BAD_TREE_STRUCTURE;
-							} else {
-								info->state = 3;	/* finished adding a field to an object */
 							}
+
+							info->state = 3;	/* finished adding a field to an object */
 							break;
 
 						case JSON_ARRAY:
@@ -2066,9 +2072,9 @@ json_parse_fragment(struct json_parsing_info *info, const char *buffer)
 							info->cursor = info->cursor->parent;
 							if (info->cursor->type != JSON_OBJECT) {
 								return JSON_BAD_TREE_STRUCTURE;
-							} else {
-								info->state = 3;	/* finished adding a field to an object */
 							}
+
+							info->state = 3;	/* finished adding a field to an object */
 							break;
 
 						case JSON_ARRAY:
@@ -2422,9 +2428,9 @@ json_parse_fragment(struct json_parsing_info *info, const char *buffer)
 								info->cursor = info->cursor->parent;
 								if (info->cursor->type != JSON_OBJECT) {
 									return JSON_BAD_TREE_STRUCTURE;
-								} else {
-									info->state = 3;	/* followup to adding child to array */
 								}
+
+								info->state = 3;	/* followup to adding child to array */
 							}
 							break;
 
@@ -2476,10 +2482,10 @@ json_parse_fragment(struct json_parsing_info *info, const char *buffer)
 		}
 	}
 	info->p = NULL;
-	if (info->state == 99)
+	if (info->state == 99) {
 		return JSON_WAITING_FOR_EOF;
-	else
-		return JSON_INCOMPLETE_DOCUMENT;
+	}
+	return JSON_INCOMPLETE_DOCUMENT;
 }
 
 
@@ -2506,10 +2512,10 @@ json_parse_document(json_t ** root, const char *text)
 		*root = jpi->cursor;
 		free(jpi);
 		return JSON_OK;
-	} else {
-		free(jpi);
-		return error;
 	}
+
+	free(jpi);
+	return error;
 }
 
 
@@ -3482,9 +3488,9 @@ json_saxy_parse(struct json_saxy_parser_status *jsps, struct json_saxy_functions
 					}
 					if (rcs_catc((jsps->temp), c) != RS_OK) {
 						return JSON_MEMORY;
-					} else {
-						jsps->string_length_limit_reached = 1;
 					}
+
+					jsps->string_length_limit_reached = 1;
 				}
 			}
 			jsps->state = 24;	/* parse number: start decimal part */
