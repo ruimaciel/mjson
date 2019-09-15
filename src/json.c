@@ -183,7 +183,8 @@ rcs_length(rcstring * rcs)
 enum json_error
 json_stream_parse(FILE * file, json_t ** document)
 {
-	char buffer[1024];			/* hard-coded value */
+	#define JSON_BUFFER_SIZE 1024
+	char buffer[JSON_BUFFER_SIZE];			/* hard-coded value */
 	enum json_error error = JSON_INCOMPLETE_DOCUMENT;
 
 	struct json_parsing_info state;
@@ -195,7 +196,7 @@ json_stream_parse(FILE * file, json_t ** document)
 	json_jpi_init(&state);		/* initializes the json_parsing_info object */
 
 	while ((error == JSON_WAITING_FOR_EOF) || (error == JSON_INCOMPLETE_DOCUMENT)) {
-		if (fgets(buffer, 1024, file) != NULL) {
+		if (fgets(buffer, JSON_BUFFER_SIZE, file) != NULL) {
 			switch (error = json_parse_fragment(&state, buffer)) {
 			case JSON_OK:
 			case JSON_WAITING_FOR_EOF:
